@@ -33,25 +33,35 @@ class TarefaController extends Controller
     }
 
     
-    public function show(string $id)
-    {
-        //
-    }
+    // public function show(string $id)
+    // {
+    //     //
+    // }
 
     
-    public function edit(string $id)
+    public function edit(Tarefa $tarefa)
     {
-        //
+        return view('tarefas.edit', compact('tarefa'));
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, Tarefa $tarefa)
     {
-        //
+        $request->validate([
+            'titulo' => 'required|max:255'
+        ]);
+
+        $tarefa->update([
+            'titulo' => $request->titulo
+        ]);
+
+        return redirect()->route('tarefas.index')->with('sucess', 'Tarefa atualizada com sucesso!');
     }
 
 
-    public function destroy(string $id)
+    public function destroy(Tarefa $tarefa)
     {
-        //
+        $tarefa->delete();
+
+        return redirect()->route('tarefas.index')->with('success', 'Tarefa deletada com sucesso!');
     }
 }
