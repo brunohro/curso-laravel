@@ -1,38 +1,52 @@
-<!-- resources/views/tarefas/index.blade.php -->
 <!DOCTYPE html>
 <html>
 
 <head>
     <title>Minhas Tarefas</title>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 
 <body>
+
     @if (session('success'))
-    <p style="color: green;">{{ session('success') }}</p>
+    <p class="success-message">{{ session('success') }}</p>
     @endif
 
-    <h1 style="color: red;">Minhas Tarefas</h1>
+    <header>
+        <h1>Minhas Tarefas</h1>
+    </header>
 
-    <a href="{{ route('tarefas.create') }}">+ Nova Tarefa</a>
+    <main>
+        <div id="tarefas">
+            <div>
+                <a href="{{ route('tarefas.create') }}">+ Nova Tarefa</a>
+            </div>
 
-    <ul>
-        @foreach($tarefas as $tarefa)
-        <li>
-            {{ $tarefa->titulo }}
-            @if($tarefa->concluida)
-            ✅
-            @endif
+            <ul class="listagem">
+                @foreach($tarefas as $tarefa)
+                <li class="tarefa">
+                    <span>{{ $tarefa->titulo }}</span>
+                    @if($tarefa->concluida)
+                    ✅
+                    @endif
 
-            <a href="{{ route('tarefas.edit', $tarefa) }}">Editar</a>
+                    <div class="acoes">
+                        <a href="{{ route('tarefas.edit', $tarefa) }}">Editar</a>
 
-            <form action="{{ route('tarefas.destroy', $tarefa) }}" method="POST" style="display:inline;">
-                @csrf
-                @method('DELETE')
-                <button type="submit" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</button>
-            </form>
-        </li>
-        @endforeach
-    </ul>
+                        <form action="{{ route('tarefas.destroy', $tarefa) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" onclick="return confirm('Tem certeza que deseja excluir?')">
+                                Excluir
+                            </button>
+                        </form>
+                    </div>
+                </li>
+                @endforeach
+            </ul>
+        </div>
+    </main>
+
 </body>
 
 </html>
